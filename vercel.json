@@ -1,5 +1,1 @@
-﻿{
-    "cleanUrls":  true,
-    "name":  "voice-polisher",
-    "version":  2
-}
+{"version": 2, "name": "voice-polisher", "cleanUrls": true}
