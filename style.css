@@ -1,0 +1,1471 @@
+/* 
+ * 스마트 보이스 폴리셔 프리미엄 스타일시트
+ * 디자인 기획: 영자 UI/UX 디자인실장 🎨✨
+ */
+
+:root {
+    /* 🌟 영자 실장의 감각적인 '소프트 펄 & 라이트 글래스' 테마 (기본 밝은 톤) */
+    --bg-base: #f8fafc;
+    --bg-surface: rgba(255, 255, 255, 0.9);
+    --bg-card: rgba(255, 255, 255, 0.96);
+    --bg-card-inner: #f1f5f9;
+    --border-color: rgba(203, 213, 225, 0.8);
+    --border-glow: rgba(99, 102, 241, 0.4);
+    
+    --primary: #4f46e5;
+    --primary-glow: rgba(79, 70, 229, 0.25);
+    --accent: #0891b2;
+    --accent-glow: rgba(8, 145, 178, 0.25);
+    --emerald: #059669;
+    --coral: #e11d48;
+    
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --text-dim: #94a3b8;
+
+    --card-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
+    --btn-bg: #ffffff;
+    --select-bg: #ffffff;
+    --select-text: #0f172a;
+    --modal-bg: #ffffff;
+    
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+}
+
+[data-theme="dark"] {
+    /* 🌙 세련된 사이버네틱 다크 테마 */
+    --bg-base: #0a0d14;
+    --bg-surface: rgba(18, 24, 38, 0.75);
+    --bg-card: rgba(26, 35, 54, 0.65);
+    --bg-card-inner: rgba(0, 0, 0, 0.3);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-glow: rgba(99, 102, 241, 0.4);
+    
+    --primary: #6366f1;
+    --primary-glow: rgba(99, 102, 241, 0.3);
+    --accent: #06b6d4;
+    --accent-glow: rgba(6, 182, 212, 0.3);
+    --emerald: #10b981;
+    --coral: #f43f5e;
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    --btn-bg: rgba(255, 255, 255, 0.06);
+    --select-bg: #0f172a;
+    --select-text: #f8fafc;
+    --modal-bg: #111827;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-base);
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.08) 0%, transparent 45%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 30px 16px;
+    overflow-x: hidden;
+}
+
+.app-wrapper {
+    max-width: 1080px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* 1. 상단 헤더 */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.brand-badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.brand-title {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.brand-title span {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand-desc {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.settings-btn {
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.settings-btn:hover {
+    background: rgba(99, 102, 241, 0.25);
+    border-color: var(--accent);
+}
+
+.autostart-toggle-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    box-shadow: var(--card-shadow);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.autostart-toggle-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.autostart-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.autostart-badge.on {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+}
+
+.autostart-badge.off {
+    background: rgba(148, 163, 184, 0.15);
+    color: #94a3b8;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.autostart-setting-row {
+    background: rgba(99, 102, 241, 0.05);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    border: 1px dashed rgba(99, 102, 241, 0.35);
+}
+
+.autostart-state-label {
+    margin-left: 10px;
+    font-size: 13px;
+    font-weight: 800;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: var(--card-shadow);
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-surface);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #64748b;
+    transition: all 0.3s ease;
+}
+
+.status-indicator.active {
+    background: var(--emerald);
+    box-shadow: 0 0 12px var(--emerald);
+}
+
+.status-indicator.recording {
+    background: var(--coral);
+    box-shadow: 0 0 14px var(--coral);
+    animation: pulseStatus 1s infinite alternate;
+}
+
+@keyframes pulseStatus {
+    from { opacity: 0.6; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1.2); }
+}
+
+.status-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* 2. 마이크 및 비주얼라이저 섹션 */
+.mic-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(16px);
+    position: relative;
+}
+
+/* 마이크 장치 선택 바 */
+.mic-device-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 620px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.device-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.mic-device-select {
+    flex: 1;
+    min-width: 240px;
+    background: var(--select-bg);
+    border: 1px solid var(--border-color);
+    color: var(--select-text);
+    padding: 7px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.mic-device-select:focus {
+    border-color: var(--accent);
+}
+
+.mic-device-select option {
+    background: var(--select-bg);
+    color: var(--select-text);
+}
+
+/* 데스크톱 전역 타이핑 모드 스위치 카드 (균형 잡힌 2단 카드 레이아웃) */
+.typeless-control-card,
+.typeless-control-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(99, 102, 241, 0.06);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 620px;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.typeless-control-card:hover,
+.typeless-control-bar:hover {
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.08);
+}
+
+/* 상단 행: 토글 스위치(좌)와 에이전트 상태(우) 완벽 대칭 */
+.typeless-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.typeless-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.typeless-toggle-label input {
+    display: none;
+}
+
+.typeless-toggle-slider {
+    width: 36px;
+    height: 20px;
+    background: #94a3b8;
+    border-radius: 9999px;
+    position: relative;
+    transition: background 0.3s;
+}
+
+.typeless-toggle-slider::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.typeless-toggle-label input:checked + .typeless-toggle-slider {
+    background: var(--emerald);
+}
+
+.typeless-toggle-label input:checked + .typeless-toggle-slider::after {
+    transform: translateX(16px);
+}
+
+.typeless-text {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    letter-spacing: -0.2px;
+}
+
+.typeless-badge-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .typeless-badge-wrap {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #64748b;
+}
+
+.status-dot.connected {
+    background: var(--emerald);
+    box-shadow: 0 0 8px var(--emerald);
+}
+
+.status-dot.disconnected {
+    background: var(--coral);
+}
+
+.badge-text {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* 하단 행: 가로 폭을 정돈하여 꽉 채우는 프리미엄 단축키 안내 바 */
+.typeless-hotkey-guide {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: rgba(99, 102, 241, 0.08);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 12.5px;
+    gap: 10px;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.hotkey-badge-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.hotkey-guide-title {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.hotkey-kbd {
+    background: rgba(99, 102, 241, 0.16);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    color: var(--primary);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-weight: 800;
+    font-size: 11.5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-family: inherit;
+}
+
+[data-theme="dark"] .hotkey-kbd {
+    background: rgba(99, 102, 241, 0.28);
+    border-color: rgba(129, 140, 248, 0.45);
+    color: #a5b4fc;
+}
+
+.hotkey-alt-text {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.hotkey-desc-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.guide-step {
+    white-space: nowrap;
+}
+
+.guide-arrow {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* 큼직하고 세련된 프리미엄 마이크 컨트롤러 (영자 실장 리디자인 ✨) */
+.mic-container {
+    position: relative;
+    width: 160px;
+    height: 155px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px auto;
+}
+
+.mic-btn {
+    width: 104px;
+    height: 104px;
+    border-radius: 50%;
+    /* 평상시: 영롱한 딥 인디고 & 시안 글래스 그라데이션 */
+    background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+    border: 3px solid rgba(255, 255, 255, 0.45);
+    color: #fff;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.35), inset 0 2px 4px rgba(255, 255, 255, 0.5);
+    transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    outline: none;
+    padding: 0;
+}
+
+.mic-inner-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.mic-svg-icon {
+    width: 44px;
+    height: 44px;
+    color: #ffffff;
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mic-btn:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 18px 42px rgba(6, 182, 212, 0.45), inset 0 2px 6px rgba(255, 255, 255, 0.7);
+}
+
+.mic-btn:hover .mic-svg-icon {
+    transform: scale(1.1);
+}
+
+/* 🌟 마이크가 켜졌을 때 (촌스러운 빨간불 대신 영롱한 오로라 비비드 네온!) */
+.mic-btn.active {
+    background: linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #f43f5e 100%);
+    border-color: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 14px 40px rgba(236, 72, 153, 0.55), 0 0 25px rgba(244, 63, 94, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+    transform: scale(1.05);
+    animation: activeGlowPulse 2s infinite alternate ease-in-out;
+}
+
+.mic-btn.active .mic-svg-icon {
+    transform: scale(1.12);
+    animation: micWiggle 1.5s infinite ease-in-out;
+}
+
+@keyframes activeGlowPulse {
+    0% {
+        box-shadow: 0 14px 35px rgba(236, 72, 153, 0.5), 0 0 20px rgba(244, 63, 94, 0.5), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+    }
+    100% {
+        box-shadow: 0 18px 50px rgba(236, 72, 153, 0.75), 0 0 35px rgba(99, 102, 241, 0.7), inset 0 3px 8px rgba(255, 255, 255, 0.85);
+    }
+}
+
+@keyframes micWiggle {
+    0%, 100% { transform: scale(1.12) rotate(0deg); }
+    25% { transform: scale(1.15) rotate(-3deg); }
+    75% { transform: scale(1.15) rotate(3deg); }
+}
+
+/* 3중 오로라 네온 파동 링 */
+.pulse-ring {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mic-btn.active ~ .pulse-ring.ring-1 {
+    width: 125px;
+    height: 125px;
+    border: 2.5px solid rgba(236, 72, 153, 0.8);
+    animation: ringPulseSmooth 1.8s infinite ease-out;
+}
+
+.mic-btn.active ~ .pulse-ring.ring-2 {
+    width: 155px;
+    height: 155px;
+    border: 2px solid rgba(99, 102, 241, 0.6);
+    animation: ringPulseSmooth 1.8s infinite 0.4s ease-out;
+}
+
+.mic-btn.active ~ .pulse-ring.ring-3 {
+    width: 190px;
+    height: 190px;
+    border: 1.5px solid rgba(6, 182, 212, 0.45);
+    animation: ringPulseSmooth 1.8s infinite 0.8s ease-out;
+}
+
+@keyframes ringPulseSmooth {
+    0% { transform: translate(-50%, -50%) scale(0.85); opacity: 0.85; }
+    100% { transform: translate(-50%, -50%) scale(1.45); opacity: 0; }
+}
+
+.mic-label-caption {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 14px;
+    letter-spacing: -0.2px;
+}
+
+.mic-label-caption b {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* 오디오 비주얼라이저 */
+.visualizer {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    margin-bottom: 16px;
+}
+
+.visualizer .bar {
+    width: 6px;
+    height: 8px;
+    background: var(--text-dim);
+    border-radius: 9999px;
+    transition: height 0.15s ease, background 0.3s;
+}
+
+.visualizer.active .bar {
+    background: linear-gradient(to top, var(--primary), var(--accent));
+    animation: barBounce 0.8s infinite ease-in-out alternate;
+}
+
+.visualizer.active .bar:nth-child(1) { animation-delay: 0.1s; }
+.visualizer.active .bar:nth-child(2) { animation-delay: 0.3s; }
+.visualizer.active .bar:nth-child(3) { animation-delay: 0.2s; }
+.visualizer.active .bar:nth-child(4) { animation-delay: 0.5s; }
+.visualizer.active .bar:nth-child(5) { animation-delay: 0.15s; }
+.visualizer.active .bar:nth-child(6) { animation-delay: 0.4s; }
+.visualizer.active .bar:nth-child(7) { animation-delay: 0.25s; }
+.visualizer.active .bar:nth-child(8) { animation-delay: 0.45s; }
+.visualizer.active .bar:nth-child(9) { animation-delay: 0.2s; }
+.visualizer.active .bar:nth-child(10) { animation-delay: 0.35s; }
+
+@keyframes barBounce {
+    0% { height: 6px; }
+    100% { height: 32px; }
+}
+
+.voice-tips {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg-card-inner);
+    padding: 8px 16px;
+    border-radius: 9999px;
+    border: 1px solid var(--border-color);
+}
+
+.tip-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f59e0b;
+}
+
+.tip-text {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* 3. 카드 공통 스타일 */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    backdrop-filter: blur(14px);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    border-color: var(--border-glow);
+    box-shadow: var(--card-shadow);
+}
+
+/* 4. 단일 통합 메인 패널 (AI 완성본 일체형 뷰) */
+.single-main-panel {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.unified-card {
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.panels-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-title h3 {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.header-right-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-raw-btn {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.toggle-raw-btn:hover,
+.toggle-raw-btn.active {
+    color: var(--primary);
+    border-color: rgba(99, 102, 241, 0.4);
+    background: rgba(99, 102, 241, 0.08);
+}
+
+/* 접이식 원본 음성 서랍 */
+.raw-speech-drawer {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    animation: fadeIn 0.2s ease-out;
+}
+
+[data-theme="dark"] .raw-speech-drawer {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.raw-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.raw-drawer-title {
+    font-weight: 700;
+}
+
+.raw-drawer-body {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    max-height: 90px;
+    overflow-y: auto;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.raw-dot { background: #94a3b8; }
+.polished-dot { background: var(--emerald); box-shadow: 0 0 8px var(--emerald); }
+
+.card-tag {
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.badge-ai {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--emerald);
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-weight: 700;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.text-area-display {
+    min-height: 140px;
+    max-height: 220px;
+    overflow-y: auto;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-main);
+    word-break: break-word;
+}
+
+.text-area-display.unified-display {
+    min-height: 170px;
+    max-height: 280px;
+    font-size: 17px;
+    line-height: 1.75;
+    font-weight: 500;
+    padding: 20px;
+}
+
+.placeholder-text {
+    color: var(--text-dim);
+    font-size: 14.5px;
+}
+
+.card-footer {
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-footer.actions {
+    justify-content: flex-end;
+}
+
+.word-count {
+    font-size: 12px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.action-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    line-height: 1.2;
+}
+
+.action-btn:hover {
+    background: var(--bg-card-inner);
+    border-color: var(--accent);
+}
+
+.save-btn {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--accent);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.save-btn:hover {
+    background: rgba(99, 102, 241, 0.4);
+}
+
+.danger-btn {
+    background: rgba(244, 63, 94, 0.15);
+    color: var(--coral);
+    border-color: rgba(244, 63, 94, 0.3);
+}
+
+.danger-btn:hover {
+    background: rgba(244, 63, 94, 0.3);
+}
+
+/* 5. 실시간 다국어 번역 섹션 */
+.trans-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.trans-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.trans-title h3 {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.lang-selector-wrap {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-select {
+    background: var(--select-bg);
+    border: 1px solid var(--border-color);
+    color: var(--select-text);
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+}
+
+.lang-select option {
+    background: var(--select-bg);
+    color: var(--select-text);
+}
+
+.btn-translate {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border: none;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.btn-translate:hover {
+    transform: scale(1.03);
+}
+
+.trans-result-box {
+    min-height: 80px;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.trans-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* 6. 메모장 섹션 */
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.empty-note {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 14px;
+    padding: 30px 0;
+}
+
+.note-item {
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.note-item:hover {
+    filter: brightness(0.97);
+}
+
+.note-content {
+    font-size: 14px;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.note-time {
+    font-size: 12px;
+    color: var(--text-dim);
+    white-space: nowrap;
+}
+
+/* 속삭임 모드 + 앱별 톤 조절 스마트 바 */
+.smart-mode-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: rgba(16, 185, 129, 0.07);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 24px;
+    width: 100%;
+    max-width: 620px;
+    flex-wrap: wrap;
+}
+
+.whisper-slider { background: #334155 !important; }
+
+.typeless-toggle-label input:checked + .whisper-slider {
+    background: var(--emerald) !important;
+}
+
+.whisper-indicator {
+    display: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--emerald);
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 9999px;
+    padding: 3px 10px;
+    animation: pulseStatus 1s infinite alternate;
+}
+
+.whisper-indicator.visible { display: inline-block; }
+
+.tone-selector-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tone-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.tone-select {
+    background: var(--select-bg);
+    border: 1px solid var(--border-color);
+    color: var(--select-text);
+    padding: 5px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.tone-select:focus { border-color: var(--emerald); }
+.tone-select option { background: var(--select-bg); color: var(--select-text); }
+
+/* 개인 사전 섹션 */
+.dict-section { margin-top: 4px; }
+
+.dict-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dict-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dict-title h3 {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dict-badge {
+    font-size: 11px;
+    font-weight: 700;
+    color: #059669;
+    background: rgba(5, 150, 105, 0.12);
+    border: 1px solid rgba(5, 150, 105, 0.3);
+    padding: 2px 8px;
+    border-radius: 9999px;
+}
+
+.dict-body {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dict-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.dict-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dict-input {
+    flex: 1;
+    min-width: 160px;
+    background: var(--select-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.dict-input:focus {
+    border-color: var(--emerald);
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+}
+
+.dict-input::placeholder { color: var(--text-dim); }
+.dict-arrow { font-size: 18px; font-weight: 700; color: var(--emerald); flex-shrink: 0; }
+
+.dict-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.dict-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+.dict-item-words {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.dict-wrong { color: var(--coral); font-weight: 600; text-decoration: line-through; }
+.dict-correct { color: var(--emerald); font-weight: 700; }
+
+.dict-del-btn {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    flex-shrink: 0;
+}
+
+.dict-del-btn:hover {
+    color: var(--coral);
+    background: rgba(244, 63, 94, 0.1);
+}
+
+/* 7. 토스트 알림 */
+
+.toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid var(--accent);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* 푸터 */
+.app-footer {
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 16px 0;
+}
+
+/* 8. 단축키 설정 모달 팝업 */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    background: var(--modal-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 520px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    from { transform: scale(0.92); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.modal-close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close-btn:hover {
+    color: var(--coral);
+}
+
+.modal-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.hotkey-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.hotkey-row {
+    background: var(--bg-card-inner);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.hotkey-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hotkey-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.hotkey-sub {
+    font-size: 11px;
+    color: var(--text-dim);
+}
+
+.hotkey-actions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.key-preset-select {
+    background: var(--select-bg);
+    border: 1px solid var(--border-color);
+    color: var(--accent);
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+    max-width: 135px;
+    transition: border-color 0.2s;
+}
+
+.key-preset-select:focus {
+    border-color: var(--accent);
+}
+
+.key-preset-select optgroup {
+    background: var(--bg-card-inner);
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.key-preset-select option {
+    background: var(--select-bg);
+    color: var(--select-text);
+}
+
+.key-capture-btn {
+    background: var(--btn-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.key-capture-btn:hover {
+    border-color: var(--accent);
+}
+
+.key-capture-btn.capturing {
+    background: rgba(99, 102, 241, 0.3);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.key-capture-btn kbd {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+
+.key-capture-btn.capturing kbd {
+    color: #f59e0b;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}

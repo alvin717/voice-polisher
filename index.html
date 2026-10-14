@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보이스 폴리셔 AI (Voice Polisher & Translator)</title>
+    <!-- 프리미엄 폰트 Pretendard -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <!-- 밝고 선명한 모던 파비콘 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g' x1='0' y1='0' x2='0' y2='1'><stop offset='0%25' stop-color='%2338bdf8'/><stop offset='100%25' stop-color='%236366f1'/></linearGradient></defs><rect width='32' height='32' rx='8' fill='url(%23g)'/><rect x='11' y='6' width='10' height='13' rx='5' fill='white'/><path d='M8 14a8 8 0 0 0 16 0' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round'/><line x1='16' y1='22' x2='16' y2='26' stroke='white' stroke-width='2.2' stroke-linecap='round'/><line x1='11' y1='26' x2='21' y2='26' stroke='white' stroke-width='2.2' stroke-linecap='round'/></svg>">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- 상단 헤더 -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-badge">🎙️ AI 드림팀 엔진</div>
+                <h1 class="brand-title">보이스 폴리셔 <span>AI</span></h1>
+                <p class="brand-desc">어눌한 발음도 문맥을 읽어 완벽한 문장으로! 실시간 다국어 번역과 음성 명령까지</p>
+            </div>
+            <div class="header-right">
+                <button class="action-btn autostart-toggle-btn" id="autostartToggleBtn" title="컴퓨터(윈도우) 켤 때 보이스 폴리셔 자동 실행 여부 설정">
+                    <span class="autostart-icon">🚀</span>
+                    <span class="autostart-text">부팅 자동실행</span>
+                    <span class="autostart-badge off" id="autostartBadge">OFF</span>
+                </button>
+                <button class="action-btn theme-toggle-btn" id="themeToggleBtn" title="밝은 모드 / 어두운 모드 전환">🌙 어두운 모드</button>
+                <button class="action-btn settings-btn" id="openHotkeyModalBtn" title="단축키 커스텀 설정">⌨️ 단축키 설정</button>
+                <div class="header-status">
+                    <span class="status-indicator" id="sttStatusIndicator"></span>
+                    <span class="status-text" id="sttStatusText">마이크 대기 중</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 메인 컨트롤 영역 (마이크 & 비주얼라이저) -->
+        <section class="mic-section">
+            <!-- 마이크 장치 탐색 및 선택 바 -->
+            <div class="mic-device-bar">
+                <div class="device-label">
+                    <span class="icon">🎙️</span>
+                    <span>입력 마이크 선택:</span>
+                </div>
+                <select id="micDeviceSelect" class="mic-device-select">
+                    <option value="">장치 권한을 허용하여 마이크를 검색하세요...</option>
+                </select>
+                <button id="refreshMicsBtn" class="action-btn icon-btn" title="마이크 하드웨어 목록 다시 찾기">🔍 장치 재검색</button>
+            </div>
+
+            <!-- 타이프리스 전역 타이핑 모드 스위치 카드 (상하 2단 균형 레이아웃) -->
+            <div class="typeless-control-card">
+                <!-- 상단 헤더 행: 토글 스위치(좌)와 연결 상태 표시(우) 완벽 대칭 -->
+                <div class="typeless-card-top">
+                    <label class="typeless-toggle-label">
+                        <input type="checkbox" id="typelessModeToggle" checked>
+                        <span class="typeless-toggle-slider"></span>
+                        <span class="typeless-text">⚡ 데스크톱 전역 자동 타이핑</span>
+                    </label>
+                    <div class="typeless-badge-wrap">
+                        <span class="status-dot connected" id="typelessAgentDot"></span>
+                        <span class="badge-text" id="typelessAgentStatus">데스크톱 에이전트 연결 대기 중...</span>
+                    </div>
+                </div>
+                <!-- 하단 안내 행: 전체 폭을 채우는 균형 잡힌 단축키 & 가이드 바 -->
+                <div class="typeless-hotkey-guide">
+                    <div class="hotkey-badge-group">
+                        <span class="hotkey-guide-title">🎙️ 전역 단축키:</span>
+                        <kbd class="hotkey-kbd">F9</kbd>
+                        <span class="hotkey-alt-text">또는 <kbd class="hotkey-kbd">Alt + V</kbd></span>
+                    </div>
+                    <div class="hotkey-desc-group">
+                        <span class="guide-step">누르면 녹음 시작</span>
+                        <span class="guide-arrow">➔</span>
+                        <span class="guide-step">다시 누르면 자동 타이핑!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🆕 속삭임 모드 + 앱별 톤 조절 통합 스마트 바 -->
+            <div class="smart-mode-bar">
+                <!-- 속삭임 모드 토글 -->
+                <label class="typeless-toggle-label" title="주변이 조용하거나 작게 말할 때 음성을 3배 증폭합니다">
+                    <input type="checkbox" id="whisperModeToggle">
+                    <span class="typeless-toggle-slider whisper-slider"></span>
+                    <span class="typeless-text">🤫 속삭임 모드</span>
+                </label>
+                <span class="whisper-indicator" id="whisperIndicator">🤫 속삭임 감지</span>
+                <!-- 앱별 자동 톤 조절 -->
+                <div class="tone-selector-wrap">
+                    <span class="tone-label">🎯 교정 톤:</span>
+                    <select id="toneSelect" class="tone-select" title="음성이 교정될 말투 스타일을 선택하세요">
+                        <option value="auto">🔄 자동 감지</option>
+                        <option value="email">📧 이메일 (격식체)</option>
+                        <option value="chat">💬 채팅/메시지 (캐주얼)</option>
+                        <option value="document">📄 공식 문서 (정중체)</option>
+                        <option value="free">🗒️ 자유 형식 (최소 교정)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mic-container">
+                <button class="mic-btn" id="micToggleBtn" title="음성 인식 시작/중지 (또는 단축키 F9)">
+                    <div class="mic-inner-circle">
+                        <svg class="mic-svg-icon" id="micSvgIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="22"></line>
+                            <line x1="8" y1="22" x2="16" y2="22"></line>
+                        </svg>
+                        <span class="mic-icon" id="micIcon" style="display:none;">🎙️</span>
+                    </div>
+                </button>
+                <div class="pulse-ring ring-1"></div>
+                <div class="pulse-ring ring-2"></div>
+                <div class="pulse-ring ring-3"></div>
+                <div class="mic-label-caption" id="micLabelCaption">마이크 클릭 또는 <b>F9</b>로 말하기</div>
+            </div>
+            
+            <!-- 오디오 파동 비주얼라이저 -->
+            <div class="visualizer" id="audioVisualizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+
+            <!-- 음성 팁 가이드 -->
+            <div class="voice-tips">
+                <span class="tip-badge">💡 음성 명령 팁</span>
+                <span class="tip-text">"복사해줘", "지워줘", "메모 저장", "영어로 번역" 이라고 말해보세요!</span>
+            </div>
+        </section>
+
+        <!-- 메인 단일 통합 패널: AI 완성 텍스트 (심플 일체형 뷰) -->
+        <main class="single-main-panel">
+            <div class="card panel-card polished-panel unified-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="dot polished-dot"></span>
+                        <h3>✨ AI 완성 텍스트 (자동 교정)</h3>
+                    </div>
+                    <div class="header-right-actions">
+                        <span class="card-tag badge-ai">⚡ 타이핑 준비 완료</span>
+                        <button type="button" class="action-btn toggle-raw-btn" id="toggleRawBtn" title="내가 말한 원본 음성 보기/숨기기">
+                            🗣️ 원본 보기 <span id="toggleRawArrow">⌄</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 접이식 원본 음성 확인 영역 (평소에는 깔끔하게 접혀 있어 시야 방해 없음) -->
+                <div class="raw-speech-drawer" id="rawSpeechDrawer" style="display: none;">
+                    <div class="raw-drawer-header">
+                        <span class="raw-drawer-title">🎙️ 마이크 원본 음성 (날것의 기록):</span>
+                        <span class="word-count" id="rawWordCount">0 글자</span>
+                        <button type="button" class="action-btn icon-btn" id="clearRawBtn" title="원본 지우기" style="padding: 2px 8px; font-size: 11px;">🧹</button>
+                    </div>
+                    <div class="raw-drawer-body" id="rawSpeechDisplay">
+                        <p class="placeholder-text">말씀하신 원본 음성이 여기에 임시 보관됩니다.</p>
+                    </div>
+                </div>
+
+                <!-- 메인 최종 완성 텍스트 영역 (시원하고 넓은 뷰) -->
+                <div class="card-body">
+                    <div class="text-area-display unified-display" id="polishedDisplay">
+                        <p class="placeholder-text">마이크 또는 F9 단축키를 누르고 편하게 말씀해보세요. AI가 문맥을 스스로 파악하여 깔끔하게 다듬어진 문장을 여기에 표시하고 메모장 등에 자동 입력합니다.</p>
+                    </div>
+                </div>
+
+                <div class="card-footer actions">
+                    <button class="action-btn danger-outline-btn" id="clearAllDisplaysBtn" title="입력창 전체 비우고 새로 입력">🧹 새로고침 (지우기)</button>
+                    <button class="action-btn" id="copyPolishedBtn" title="클립보드 복사">📋 복사</button>
+                    <button class="action-btn" id="ttsPolishedBtn" title="음성으로 듣기">🔊 듣기</button>
+                    <button class="action-btn save-btn" id="saveNoteBtn" title="메모장에 저장">💾 메모 저장</button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 실시간 다국어 번역 섹션 -->
+        <section class="card translation-section">
+            <div class="trans-header">
+                <div class="trans-title">
+                    <span class="icon">🌐</span>
+                    <h3>원하는 언어로 즉시 변환 (Instant Translation)</h3>
+                </div>
+                <!-- 언어 선택 드롭다운 (글로벌 15대 주요 언어) -->
+                <div class="lang-selector-wrap">
+                    <select id="targetLangSelect" class="lang-select">
+                        <option value="en" selected>🇺🇸 영어 (English)</option>
+                        <option value="ja">🇯🇵 일본어 (日本語)</option>
+                        <option value="zh">🇨🇳 중국어 (中文)</option>
+                        <option value="vi">🇻🇳 베트남어 (Tiếng Việt)</option>
+                        <option value="es">🇪🇸 스페인어 (Español)</option>
+                        <option value="fr">🇫🇷 프랑스어 (Français)</option>
+                        <option value="de">🇩🇪 독일어 (Deutsch)</option>
+                        <option value="ru">🇷🇺 러시아어 (Русский)</option>
+                        <option value="it">🇮🇹 이탈리아어 (Italiano)</option>
+                        <option value="pt">🇵🇹 포르투갈어 (Português)</option>
+                        <option value="id">🇮🇩 인도네시아어 (Bahasa Indonesia)</option>
+                        <option value="th">🇹🇭 태국어 (ภาษาไทย)</option>
+                        <option value="ar">🇸🇦 아랍어 (العربية)</option>
+                        <option value="hi">🇮🇳 힌디어 (हिन्दी)</option>
+                        <option value="ko">🇰🇷 한국어 (Korean)</option>
+                    </select>
+                    <button class="btn-translate" id="triggerTranslateBtn">즉시 번역 ⚡</button>
+                </div>
+            </div>
+            
+            <div class="trans-result-box" id="transResultDisplay">
+                <p class="placeholder-text">교정된 문장이 선택한 언어로 실시간 번역되어 여기에 표시됩니다.</p>
+            </div>
+            
+            <div class="trans-actions">
+                <button class="action-btn" id="copyTransBtn">📋 번역문 복사</button>
+                <button class="action-btn" id="ttsTransBtn">🔊 원어민 발음 듣기</button>
+            </div>
+        </section>
+
+        <!-- 스마트 기록장 (Saved Notes) -->
+        <section class="card notes-section">
+            <div class="notes-header">
+                <h3>📝 스마트 음성 기록장 (<span id="noteCount">0</span>개)</h3>
+                <button class="action-btn danger-btn" id="clearAllNotesBtn">전체 비우기</button>
+            </div>
+            <div class="notes-list" id="notesList">
+                <p class="empty-note">아직 저장된 메모가 없습니다. "메모 저장"이라고 말하거나 버튼을 눌러 기록해보세요!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 단축키 설정 모달 팝업 -->
+    <div class="modal-backdrop" id="hotkeyModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>⌨️ 단축키 커스텀 설정</h3>
+                <button class="modal-close-btn" id="closeHotkeyModalBtn">✕</button>
+            </div>
+            <p class="modal-desc">
+                👉 <strong>방법 1</strong>: 키 상자를 누른 뒤 <strong>키보드 자판의 아무 키나 직접 누르기</strong> (스페이스, 엔터, F1~F12, 조합키 등 모든 키 가능!)<br>
+                👉 <strong>방법 2</strong>: 우측 <strong>[자판 목록에서 선택]</strong>을 눌러 원하는 키를 콕 찍기
+            </p>
+            
+            <div class="hotkey-list">
+                <!-- 🚀 시스템 부팅 시 자동 시작 설정 -->
+                <div class="hotkey-row autostart-setting-row">
+                    <div class="hotkey-info">
+                        <span class="hotkey-title">🚀 윈도우 부팅 시 자동 실행</span>
+                        <span class="hotkey-sub">컴퓨터를 껐다 켰을 때 백그라운드 트레이로 자동 실행할지 여부</span>
+                    </div>
+                    <div class="hotkey-actions-wrap">
+                        <label class="typeless-toggle-label" style="cursor: pointer;">
+                            <input type="checkbox" id="modalAutostartToggle">
+                            <span class="typeless-toggle-slider"></span>
+                            <span class="autostart-state-label" id="modalAutostartText">꺼짐 (OFF)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="hotkey-row">
+                    <div class="hotkey-info">
+                        <span class="hotkey-title">🎙️ 마이크 켜기 / 끄기 토글</span>
+                        <span class="hotkey-sub">음성 인식을 시작하거나 중지합니다</span>
+                    </div>
+                    <div class="hotkey-actions-wrap">
+                        <button class="key-capture-btn" data-action="toggleMic" id="keyBtn_toggleMic" title="클릭 후 키보드에서 원하는 키를 직접 누르세요">
+                            <kbd id="keyDisplay_toggleMic">F9</kbd>
+                        </button>
+                        <select class="key-preset-select" data-action="toggleMic">
+                            <option value="">목록에서 선택...</option>
+                            <optgroup label="💡 기능키 (F1~F12)">
+                                <option value="F1">F1</option>
+                                <option value="F2">F2</option>
+                                <option value="F3">F3</option>
+                                <option value="F4">F4</option>
+                                <option value="F5">F5</option>
+                                <option value="F6">F6</option>
+                                <option value="F7">F7</option>
+                                <option value="F8">F8</option>
+                                <option value="F9">F9</option>
+                                <option value="F10">F10</option>
+                                <option value="F11">F11</option>
+                                <option value="F12">F12</option>
+                            </optgroup>
+                            <optgroup label="⌨️ 특수/조작키">
+                                <option value="Space">스페이스바 (Space)</option>
+                                <option value="Escape">ESC (Escape)</option>
+                                <option value="Enter">엔터 (Enter)</option>
+                                <option value="Tab">탭 (Tab)</option>
+                                <option value="Backspace">백스페이스 (Backspace)</option>
+                                <option value="Delete">Delete</option>
+                                <option value="Insert">Insert</option>
+                                <option value="Home">Home</option>
+                                <option value="End">End</option>
+                                <option value="PageUp">Page Up</option>
+                                <option value="PageDown">Page Down</option>
+                                <option value="Control">Ctrl (단독)</option>
+                                <option value="Shift">Shift (단독)</option>
+                                <option value="Alt">Alt (단독)</option>
+                                <option value="CapsLock">Caps Lock</option>
+                            </optgroup>
+                            <optgroup label="🧭 방향키">
+                                <option value="ArrowUp">위쪽 방향키 (↑)</option>
+                                <option value="ArrowDown">아래쪽 방향키 (↓)</option>
+                                <option value="ArrowLeft">왼쪽 방향키 (←)</option>
+                                <option value="ArrowRight">오른쪽 방향키 (→)</option>
+                            </optgroup>
+                            <optgroup label="⚡ 인기 조합키">
+                                <option value="Ctrl+Space">Ctrl + Space</option>
+                                <option value="Alt+Space">Alt + Space</option>
+                                <option value="Shift+Space">Shift + Space</option>
+                                <option value="Ctrl+Shift+Space">Ctrl + Shift + Space</option>
+                                <option value="Alt+M">Alt + M</option>
+                                <option value="Alt+C">Alt + C</option>
+                                <option value="Alt+T">Alt + T</option>
+                                <option value="Ctrl+Enter">Ctrl + Enter</option>
+                            </optgroup>
+                            <optgroup label="🔢 숫자 및 텐키">
+                                <option value="1">숫자 1</option>
+                                <option value="2">숫자 2</option>
+                                <option value="3">숫자 3</option>
+                                <option value="4">숫자 4</option>
+                                <option value="5">숫자 5</option>
+                                <option value="6">숫자 6</option>
+                                <option value="7">숫자 7</option>
+                                <option value="8">숫자 8</option>
+                                <option value="9">숫자 9</option>
+                                <option value="0">숫자 0</option>
+                                <option value="Num1">텐키 Num 1</option>
+                                <option value="Num2">텐키 Num 2</option>
+                                <option value="Num3">텐키 Num 3</option>
+                            </optgroup>
+                            <optgroup label="🔣 기호키">
+                                <option value="Backquote">` (물결/백틱)</option>
+                                <option value="Minus">- (마이너스)</option>
+                                <option value="Equal">= (등호)</option>
+                                <option value="BracketLeft">[ (대괄호 열기)</option>
+                                <option value="BracketRight">] (대괄호 닫기)</option>
+                                <option value="Semicolon">; (세미콜론)</option>
+                                <option value="Quote">' (따옴표)</option>
+                                <option value="Slash">/ (슬래시)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="hotkey-row">
+                    <div class="hotkey-info">
+                        <span class="hotkey-title">🧹 입력창 비우기 (새로고침)</span>
+                        <span class="hotkey-sub">현재 화면의 텍스트를 즉시 초기화합니다</span>
+                    </div>
+                    <div class="hotkey-actions-wrap">
+                        <button class="key-capture-btn" data-action="clearText" id="keyBtn_clearText" title="클릭 후 키보드에서 원하는 키를 직접 누르세요">
+                            <kbd id="keyDisplay_clearText">Escape</kbd>
+                        </button>
+                        <select class="key-preset-select" data-action="clearText">
+                            <option value="">목록에서 선택...</option>
+                            <optgroup label="⌨️ 특수/조작키">
+                                <option value="Escape">ESC (Escape)</option>
+                                <option value="Delete">Delete</option>
+                                <option value="Backspace">Backspace</option>
+                                <option value="Space">스페이스바 (Space)</option>
+                                <option value="Tab">Tab</option>
+                            </optgroup>
+                            <optgroup label="💡 기능키">
+                                <option value="F1">F1</option>
+                                <option value="F2">F2</option>
+                                <option value="F4">F4</option>
+                                <option value="F8">F8</option>
+                                <option value="F12">F12</option>
+                            </optgroup>
+                            <optgroup label="⚡ 인기 조합키">
+                                <option value="Alt+C">Alt + C</option>
+                                <option value="Ctrl+Delete">Ctrl + Delete</option>
+                                <option value="Alt+Backspace">Alt + Backspace</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="hotkey-row">
+                    <div class="hotkey-info">
+                        <span class="hotkey-title">📋 교정된 문장 클립보드 복사</span>
+                        <span class="hotkey-sub">AI 완성본을 클립보드로 복사합니다</span>
+                    </div>
+                    <div class="hotkey-actions-wrap">
+                        <button class="key-capture-btn" data-action="copyText" id="keyBtn_copyText" title="클릭 후 키보드에서 원하는 키를 직접 누르세요">
+                            <kbd id="keyDisplay_copyText">Alt + C</kbd>
+                        </button>
+                        <select class="key-preset-select" data-action="copyText">
+                            <option value="">목록에서 선택...</option>
+                            <option value="Alt+C">Alt + C</option>
+                            <option value="Ctrl+Shift+C">Ctrl + Shift + C</option>
+                            <option value="F2">F2</option>
+                            <option value="F3">F3</option>
+                            <option value="F4">F4</option>
+                            <option value="Insert">Insert</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="hotkey-row">
+                    <div class="hotkey-info">
+                        <span class="hotkey-title">⚡ 즉시 다국어 번역</span>
+                        <span class="hotkey-sub">선택된 언어로 즉각 번역을 실행합니다</span>
+                    </div>
+                    <div class="hotkey-actions-wrap">
+                        <button class="key-capture-btn" data-action="translate" id="keyBtn_translate" title="클릭 후 키보드에서 원하는 키를 직접 누르세요">
+                            <kbd id="keyDisplay_translate">Alt + T</kbd>
+                        </button>
+                        <select class="key-preset-select" data-action="translate">
+                            <option value="">목록에서 선택...</option>
+                            <option value="Alt+T">Alt + T</option>
+                            <option value="Ctrl+Shift+T">Ctrl + Shift + T</option>
+                            <option value="F7">F7</option>
+                            <option value="F9">F9</option>
+                            <option value="F10">F10</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="action-btn" id="resetDefaultHotkeysBtn">기본값 복원</button>
+                <button class="action-btn save-btn" id="saveHotkeyModalBtn">저장 완료</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 알림 토스트 메시지 -->
+    <div class="toast" id="toastMessage"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
